@@ -8,9 +8,8 @@ import psutil
 
 
 conns= psutil.net_connections('tcp');
-# for conn in conns:
-# 	print conn;
-# 	print "\n"
+#print conns;
+
 mylist = [];
 i = 0;
 j = 0;
@@ -23,34 +22,23 @@ for conn in conns:
 	raddr = '';
 	pid=getattr(conn,'pid');
 	if pid==None:
-		print "Encountered none";
 		pid=0;
-		print pid;
 	laddr_tuple=getattr(conn,'laddr');
 	raddr_tuple=getattr(conn,'raddr');
 	status=getattr(conn,'status');
-	# print "\n"
-	# print pid;
-	# print "laddr : " + str(laddr_tuple);
-	# print "raddr : " + str(raddr_tuple);
+	
 	i=i+1;
 	if laddr_tuple:
 		laddr_flag = 1;
 		laddr= laddr_tuple[0] + '@' + str(laddr_tuple[1]);
-		# print "i is + " + str(i) + "flag for laddr : " + str(laddr_flag);
-		# print "\n"
 	if raddr_tuple:
 		raddr_flag = 1;
 		raddr= raddr_tuple[0] + '@' + str(raddr_tuple[1]);
-		# print "i is" + str(i) + "flag for raddr : " + str(raddr_flag);
-		# print "\n"
 	if laddr_flag==1 or raddr_flag ==1:
 		k = k + 1;
 		mylist.append([pid,laddr,raddr,status]);
 	else:
 		j=j+1;
-		# print "\n";
-print "My dict is : \n";
 mylist.sort();
 print ("\"Pid\", \"Laddr\", \"raddr\", \"Status\"");
 for value in mylist:
