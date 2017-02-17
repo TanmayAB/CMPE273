@@ -1,4 +1,5 @@
 import psutil
+from collections import OrderedDict
 
 # def findChar(command_output, required, n):
 #     parts= command_output.split(required, n+1)
@@ -9,12 +10,14 @@ import psutil
 
 conns= psutil.net_connections('tcp');
 #print conns;
-
-mylist = [];
+myDict = dict();
+mytuple = ();
+same_pid = None;
 i = 0;
 j = 0;
 k=0;
-
+# for value in conns:
+# 	print value;
 for conn in conns:
 	laddr_flag = 0;
 	raddr_flag = 0;
@@ -23,6 +26,7 @@ for conn in conns:
 	pid=getattr(conn,'pid');
 	if pid==None:
 		pid=0;
+		# print "PID IS ZERO"
 	laddr_tuple=getattr(conn,'laddr');
 	raddr_tuple=getattr(conn,'raddr');
 	status=getattr(conn,'status');
@@ -34,15 +38,31 @@ for conn in conns:
 	if raddr_tuple:
 		raddr_flag = 1;
 		raddr= raddr_tuple[0] + '@' + str(raddr_tuple[1]);
-	if laddr_flag==1 or raddr_flag ==1:
-		k = k + 1;
-		mylist.append([pid,laddr,raddr,status]);
-	else:
-		j=j+1;
-mylist.sort();
+	if laddr_flag == 1 and raddr_flag ==1:
+		if pid in myDict.keys():
+			# print "repeating" + str(pid);
+			temp_tuple = myDict.get(pid);
+			temp_tuple = (pid,laddr,raddr,status);
+			myDict[pid] = myDict[pid] + temp_tuple;
+			# print "Yeah \n";
+		else:
+			# print "Not repeating"
+			myDict[pid]=(pid,laddr,raddr,status);
+	# else:
+		# print "Nah \n";
+
+sorted_myDict = OrderedDict(sorted(myDict.viewitems(), key=lambda x: len(x[1]), reverse=True))
+
 print ("\"Pid\", \"Laddr\", \"raddr\", \"Status\"");
-for value in mylist:
-		print ("\"%d\", \"%s\", \"%s\", \"%s\"" % (value[0],value[1],value[2],value[3]));
+
+for key, value in sorted_myDict.items():
+	for i in range(0,len(value)-1,4):
+		print "\"%s\",\"%s\",\"%s\",\"%s\"" % (value[i],value[i+1],value[i+2],value[i+3]);
+		# print " %d , %d , %d , %d " % (i,i+1,i+2,i+3);
+		# print "now : %d " % i;
+   # for value in mylist:
+# 	if(value[0] = same_pid):
+# 		print ("\"%d\", \"%s\", \"%s\", \"%s\"" % (value[0],value[1],value[2],value[3]));
 
 # print "Mylist length : " + str(len(mylist));
 # print "For loop length : " + str(i);
@@ -88,3 +108,4 @@ for value in mylist:
 	# print "laddr : " + laddr;
 	# print "pid : " + pid;
 	# print "status : " + status;
+# 11343
