@@ -1,4 +1,4 @@
-sage: "Hello from Dockerized Flask App"
+message: "Hello from Dockerized Flask App"
 
 another_config: "foo bar"
 
