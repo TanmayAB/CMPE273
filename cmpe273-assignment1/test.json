@@ -1,0 +1,5 @@
+sage: "Hello from Dockerized Flask App"
+
+another_config: "foo bar"
+
+This is JSON file
