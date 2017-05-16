@@ -1,0 +1,115 @@
+1) Pizza Menu POST : 
+
+{
+    "httpMethod" : "POST",
+
+     "data" : $input.json('$')
+
+}
+
+2) Pizza Menu DELETE : 
+
+{   
+    "httpMethod" : "DELETE",
+ 
+	"param" : {
+
+		"menu_id" : "$input.params('menu-id')" 
+
+	 }
+
+}
+
+3) Pizza Menu GET : 
+
+{   
+"httpMethod" : "GET",
+
+    "param" : {
+        
+    	"menu_id" : "$input.params('menu-id')"
+     }
+
+}
+
+4) Pizza Menu PUT : 
+
+{
+    "store_name" : "$input.path('store_name')",
+
+     "store_hours" : "$input.path('store_hours')",
+
+     "httpMethod" : "PUT",
+
+     "param" : {
+
+     	"menu_id" : "$input.params('menu-id')"
+
+      },
+
+      #if($input.path('size') && $input.path('size').length() != 0)
+
+      	"size" : $input.path('size'),
+
+      #else
+
+	"size" : "",
+
+      #end
+
+      #if($input.path('selection') && $input.path('selection').length() != 0)
+
+      "selection" : $input.path('selection'),
+
+      #else
+    "selection" : "",
+
+      #end
+
+      #if($input.path('price') && $input.path('price').length() != 0)
+
+      	"price" : $input.path('price')
+
+      #else
+
+      	"price" : ""
+
+      #end
+
+}
+
+5) Order Pizza POST : 
+	
+{
+    "httpMethod" : "POST",
+
+     "data" : $input.json('$')
+
+}
+
+6) Order Pizza GET : 
+
+{   
+ "httpMethod" : "GET",
+
+     "param" : {
+
+     	"order_id" : "$input.params('order-id')"
+ 
+     }
+
+}
+
+7) Order Pizza PUT : 
+{
+    "httpMethod" : "PUT",
+
+     "param" : {
+
+     	"order_id" : "$input.params('order-id')"
+ 
+    },
+
+     "user_input" : $input.json('input')
+
+}
