@@ -59,7 +59,7 @@ def lambda_handler(event, context):
         except:
             return "Invalid GET Request 400"
         else:
-            return response
+            return response['Item']
     elif httpMethod == "PUT":
         get_resp = table.get_item(
                 Key={"menu_id":event.get('param').get("menu_id")}
@@ -104,10 +104,11 @@ def lambda_handler(event, context):
         print("size :")
         print(event.get("size"))
         print(type(event.get("size")))
-        return response
+        return "200 OK"
+    
     elif httpMethod == "DELETE":
         try:
-           return event.get('param').get("menu_id")
+            table.delete_item(Key={'menu_id': event.get('param').get("menu_id")})
         except:
             return "Invalid DELETE Request 400"
         else:
